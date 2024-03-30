@@ -86,10 +86,10 @@ class CalendarService:
                 days_off[start_date] = event['summary']
         else:
             logger.info('No upcoming events found.')
-        if vacation:
-            logger.info(f'Found the following vacations: {vacation}')
+        if days_off:
+            logger.info(f'Found the following vacations: {days_off}')
         else:
-            logger.info('No vacation were Found')
+            logger.info('No days off were Found')
         return days_off
 
     # Not used, proven unrealiable like "faire le pont" and we might work
