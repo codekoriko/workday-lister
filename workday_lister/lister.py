@@ -47,7 +47,7 @@ class WorkdayLister:
             vacation_calendar_id,
             holiday_calendar_id,
         )
-        self.worked_days, self.days_off = self.retrieve()
+        self.days_worked, self.days_off = self.retrieve()
 
     def get_weekdays(self) -> List[date]:
         """
