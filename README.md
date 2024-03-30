@@ -20,7 +20,7 @@ Get list of week days, then substract the public holiday from google's public ca
 ## Installation
 
 ```bash
-poetry add git+https://github.com/codeKoriko/workday-lister.git#master
+poetry add git+ssh://git@github.com:codekoriko/workday-lister.git
 ```
 
 ## Authentication
