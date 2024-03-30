@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "workday-lister"
+description = "Retrieves the public holiday for giv"
+version = "0.1.0"
+license = "MIT"
+
+authors = []
+
+readme = "README.md"
+
+repository = "https://github.com/codekoriko/workday-lister"
+
+keywords = []
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.group.test.dependencies]
+nitpick = "^0.32"
+
+safety = "^2.3"
+
+pytest = "^7.1"
+pytest-cov = "^4.0"
+pytest-randomly = "^3.12"
+
+[build-system]
+requires = ["poetry-core>=1.1.13"]
+build-backend = "poetry.core.masonry.api"
+
+# add third party modules twhom stud file can't be found
+# cf: Python - typing.xmind
+[[tool.mypy.overrides]]
+module = [
+]
+ignore_missing_imports = true
