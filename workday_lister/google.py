@@ -5,7 +5,6 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from codecorico_invoicer.logger import get_logger
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import Resource, build
