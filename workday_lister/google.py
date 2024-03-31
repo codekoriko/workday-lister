@@ -4,6 +4,7 @@ from collections import namedtuple
 from datetime import date, datetime
 from pathlib import Path
 from typing import Dict, List, Optional
+from logging import getLogger
 
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -12,14 +13,15 @@ from googleapiclient.discovery import Resource, build
 from workday_lister.types import DaysOff, Period
 
 # Replace 'my_module' with the actual name of the module
-logger = get_logger(__name__)
+logger = getLogger(__name__)
 
 SCOPES = (
     'https://www.googleapis.com/auth/calendar.readonly',
 )
 
 class CalendarService:
-    def __init__(self,
+    def __init__(
+        self,
         vacation_calendar_id: str,
         holiday_calendar_ids: Optional[List[str]],
     ):

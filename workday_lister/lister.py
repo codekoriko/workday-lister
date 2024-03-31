@@ -4,7 +4,10 @@ from typing import List, Tuple, Optional
 
 from workday_lister.types import DaysOff, Period
 from workday_lister.google import CalendarService
-from workday_lister.calendar import get_first_day_of_month, get_last_day_of_month
+from workday_lister.calendar import (
+    get_first_day_of_month,
+    get_last_day_of_month,
+)
 
 class WorkdayLister:
     """
