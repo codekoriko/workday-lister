@@ -84,3 +84,10 @@ class WorkdayLister:
             if day not in days_off.keys():
                 worked_days.append(day)
         return worked_days, days_off
+
+    def update(self):
+        """
+        Update the list of worked days and days off.
+
+        """
+        self.days_worked, self.days_off = self.retrieve()
