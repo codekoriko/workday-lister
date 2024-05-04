@@ -52,7 +52,7 @@ class WorkdayLister:
         )
         self.days_worked, self.days_off = self.retrieve()
 
-    def get_weekdays(self) -> List[date]:
+    def get_weekdays(self, period: Optional[Period] = None) -> List[date]:
         """
         Get a list of weekdays within the specified period.
 
@@ -61,13 +61,14 @@ class WorkdayLister:
 
         """
         weekends = []
-        current_date = self.period.start
-        while current_date <= self.period.end:
+        if period is None:
+            period = self.period
+        current_date = period.start
+        while current_date <= period.end:
             if current_date.weekday() < 5:  # 5 and 6 correspond to Saturday and Sunday
                 weekends.append(current_date)
             current_date += timedelta(days=1)
         return weekends
-
 
     def retrieve(
         self,
