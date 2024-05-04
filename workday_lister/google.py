@@ -1,7 +1,7 @@
 import os
 import pickle
 from collections import namedtuple
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Optional
 from logging import getLogger
@@ -18,6 +18,7 @@ logger = getLogger(__name__)
 SCOPES = (
     'https://www.googleapis.com/auth/calendar.readonly',
 )
+
 
 class CalendarService:
     def __init__(
@@ -61,6 +62,19 @@ class CalendarService:
 
         return build('calendar', 'v3', credentials=creds)
 
+    def date_str_safe_get(self, date_obj: Dict[str, str]) -> date:
+        date_str = None
+        if 'dateTime' in date_obj:
+            date_str = date_obj['dateTime'].split('T')[0]
+        else:
+            date_str = date_obj['date']
+        return datetime.fromisoformat(date_str).date()
+
+    def get_event_period(self, event: Dict[str, Dict[str, str]]) -> Period:
+        start_date = self.date_str_safe_get(event['start'])
+        end_date = self.date_str_safe_get(event['end'])
+        return Period(start_date, end_date)
+
     def get_vacation(self, period: Period) -> DaysOff:
         vacation = None
         days_off: DaysOff = {}
@@ -77,14 +91,11 @@ class CalendarService:
 
         if events:
             for event in events:
-                start_str = event['start'].get(
-                    'dateTime',
-                    event['start'].get('date'),
-                )
-                start_date = datetime.fromisoformat(
-                    start_str.split('T')[0],
-                ).date()
-                days_off[start_date] = event['summary']
+                event_period = self.get_event_period(event)
+                current_date = event_period.start
+                while current_date < event_period.end:
+                    days_off[current_date] = event['summary']
+                    current_date += timedelta(days=1)
         else:
             logger.info('No upcoming events found.')
         if days_off:

@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "workday-lister"
 description = "Retrieves the public holiday for giv"
-version = "0.7.0"
+version = "0.8.0"
 license = "MIT"
 
 authors = []
@@ -20,10 +20,11 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = ">=3.8,<4.0"
 google-api-python-client = "^2.124.0"
 google-auth-httplib2 = "^0.2.0"
 google-auth-oauthlib = "^1.2.0"
+typing-extensions = "^4.11.0"
 
 [tool.poetry.group.test.dependencies]
 nitpick = "^0.32"
