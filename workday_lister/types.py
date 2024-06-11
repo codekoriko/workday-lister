@@ -9,4 +9,4 @@ class Period:
     end: date
 
 
-MarkedDay: TypeAlias = Dict[date, str]
+MarkedDays: TypeAlias = Dict[date, str]

@@ -6,7 +6,7 @@ from workday_lister.calendar import (
     get_last_day_of_month,
 )
 from workday_lister.google import CalendarService
-from workday_lister.types import Period
+from workday_lister.types import Period, MarkedDay
 
 
 class WorkdayLister:
@@ -69,7 +69,7 @@ class WorkdayLister:
 
     def retrieve(
         self,
-    ) -> List[date]:
+    ) -> List[MarkedDay]:
         """
         Retrieve the list of worked days, and dict if MarkedDay within the
         specified period.
@@ -78,7 +78,7 @@ class WorkdayLister:
             List[date]: the list of worked days striped from the desc str.
 
         """
-        return list(self.calendar_service.get_days(self.period).keys())
+        return self.calendar_service.get_days(self.period)
 
     def update(self):
         """

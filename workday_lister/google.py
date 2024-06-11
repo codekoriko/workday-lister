@@ -10,7 +10,7 @@ from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import Resource, build
 
-from workday_lister.types import MarkedDay, Period
+from workday_lister.types import MarkedDays, Period
 
 # Replace 'my_module' with the actual name of the module
 logger = getLogger(__name__)
@@ -34,9 +34,9 @@ class CalendarService:
         # Define the path for token.pickle using pathlib
         token_path = settings_path / 'token.pickle'
 
-        # The file token.pickle stores the user's access and refresh tokens, and is
-        # created automatically when the authorization flow completes for the first
-        # time.
+        # The file token.pickle stores the user's access and refresh tokens,
+        # and is created automatically when the authorization flow completes
+        # for the first time.
         if token_path.exists():
             with open(token_path, 'rb') as token_load:
                 creds = pickle.load(token_load)
@@ -73,8 +73,8 @@ class CalendarService:
         end_date = self.date_str_safe_get(event['end'])
         return Period(start_date, end_date)
 
-    def get_days(self, period: Period) -> MarkedDay:
-        days_off: MarkedDay = {}
+    def get_days(self, period: Period) -> MarkedDays:
+        marked_days: MarkedDays = {}
         time_min = period.start.isoformat() + 'T00:00:00Z'
         time_max = period.end.isoformat() + 'T23:59:59Z'
         events_result = self.service.events().list(
@@ -91,12 +91,12 @@ class CalendarService:
                 event_period = self.get_event_period(event)
                 current_date = event_period.start
                 while current_date < event_period.end:
-                    days_off[current_date] = event['summary']
+                    marked_days[current_date] = event['summary']
                     current_date += timedelta(days=1)
         else:
             logger.info('No upcoming events found.')
-        if days_off:
-            logger.info(f'Found the following vacations: {days_off}')
+        if marked_days:
+            logger.info(f'Found the following vacations: {marked_days}')
         else:
             logger.info('No days off were Found')
-        return days_off
+        return marked_days
