@@ -1,39 +1,39 @@
 from datetime import date, timedelta
+from typing import List, Optional, Tuple
 
-from typing import List, Tuple, Optional
-
-from workday_lister.types import DaysOff, Period
-from workday_lister.google import CalendarService
 from workday_lister.calendar import (
     get_first_day_of_month,
     get_last_day_of_month,
 )
+from workday_lister.google import CalendarService
+from workday_lister.types import Period
+
 
 class WorkdayLister:
     """
     A class for listing workdays within a given month or period.
 
     Args:
-        month (Optional[date]): The month for which to list workdays.
-        period (Optional[Period]): The period for which to list workdays.
-        vacation_calendar_id (str): The ID of the vacation calendar.
-        holiday_calendar_id (List[str]): The IDs of the holiday calendars.
+        month (Optional[date]): The month for which to list workdays. period
+        (Optional[Period]): The period for which to list workdays.
+        calendar_id (str): The ID of the calendar listing the worked days.
 
     Raises:
-        ValueError: If both month and period are None or if both month and period are provided.
+        ValueError: If both month and period are None or if both month and
+        period are provided.
 
     Attributes:
         period (Period): The period for which to list workdays.
-        calendar_service (CalendarService): The calendar service used to retrieve holidays and vacations.
+        calendar_service (CalendarService): The calendar service used to
+        retrieve holidays and vacations.
 
     """
 
     def __init__(
         self,
-        vacation_calendar_id: str,
+        calendar_id: str,
         month: Optional[date] = None,
         period: Optional[Period] = None,
-        holiday_calendar_id: Optional[List[str]] = None,
     ):
         if month is None and period is None:
             raise ValueError("Either month or period must be provided")
@@ -46,11 +46,8 @@ class WorkdayLister:
             )
         elif period is not None:
             self.period = period
-        self.calendar_service = CalendarService(
-            vacation_calendar_id,
-            holiday_calendar_id,
-        )
-        self.days_worked, self.days_off = self.retrieve()
+        self.calendar_service = CalendarService(calendar_id)
+        self.days_worked = self.retrieve()
 
     def get_weekdays(self, period: Optional[Period] = None) -> List[date]:
         """
@@ -72,26 +69,20 @@ class WorkdayLister:
 
     def retrieve(
         self,
-    ) -> Tuple[List[date], DaysOff]:
+    ) -> List[date]:
         """
-        Retrieve the list of worked days, and dict if DaysOff within the specified period.
+        Retrieve the list of worked days, and dict if MarkedDay within the
+        specified period.
 
         Returns:
-            Tuple[List[date], DaysOff]: A tuple containing the list of
-            worked days and days_off within the specified period.
+            List[date]: the list of worked days striped from the desc str.
 
         """
-        week_days = self.get_weekdays()
-        days_off = self.calendar_service.get_vacation(self.period)
-        worked_days: List[date] = []
-        for day in week_days:
-            if day not in days_off.keys():
-                worked_days.append(day)
-        return worked_days, days_off
+        return list(self.calendar_service.get_days(self.period).keys())
 
     def update(self):
         """
         Update the list of worked days and days off.
 
         """
-        self.days_worked, self.days_off = self.retrieve()
+        self.days_worked = self.retrieve()

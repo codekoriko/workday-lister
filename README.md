@@ -42,7 +42,7 @@ from workday_lister.lister import WorkdayLister
 from datetime import date
 
 lister = WorkdayLister(
-    vacation_calendar_id='<SUPER_LONG_CALENDAR_ID>@group.calendar.google.com',
+    calendar_id='<SUPER_LONG_CALENDAR_ID>@group.calendar.google.com',
     month=date.today(),
 )
 days_worked, days_off, = lister.retrieve()
