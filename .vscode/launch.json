@@ -6,7 +6,7 @@
   "configurations": [
       {
           "name": "sandbox.py",
-          "type": "python",
+          "type": "debugpy",
           "request": "launch",
           "program": "${workspaceFolder}/sandbox.py",
           "console": "internalConsole"

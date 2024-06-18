@@ -15,8 +15,8 @@ if __name__ == '__main__':
         calendar_id='ee98820c6f4878ce8dac4b06b8a3de293276b6b8125200b5335092f60f7dce36@group.calendar.google.com',
         month=date.today(),
     )
-    days_worked, days_off, = lister.retrieve()
+    days_worked = lister.retrieve()
     print('Workdays: ')
     print(json.dumps(days_worked, cls=DateEncoder, indent=4))
     print('Holidays: ')
-    print(json.dumps({str(k): v for k, v in days_off.items()}, indent=4))
+    print(json.dumps({str(k): v for k, v in days_worked.items()}, indent=4))

@@ -91,7 +91,7 @@ class CalendarService:
                 event_period = self.get_event_period(event)
                 current_date = event_period.start
                 while current_date < event_period.end:
-                    marked_days[current_date] = event['description']
+                    marked_days[current_date] = event.get('description', '')
                     current_date += timedelta(days=1)
         else:
             logger.info('No upcoming events found.')
