@@ -90,7 +90,7 @@ class CalendarService:
             for event in events:
                 event_period = self.get_event_period(event)
                 current_date = event_period.start
-                while current_date < event_period.end:
+                while current_date < event_period.end and current_date <= period.end:
                     marked_days[current_date] = event.get('description', '')
                     current_date += timedelta(days=1)
         else:
