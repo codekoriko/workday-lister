@@ -25,7 +25,7 @@ class WorkdayLister:
     Attributes:
         period (Period): The period for which to list workdays.
         calendar_service (CalendarService): The calendar service used to
-        retrieve holidays and vacations.
+        retrieve days worked.
 
     """
 

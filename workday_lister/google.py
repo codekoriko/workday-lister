@@ -94,9 +94,9 @@ class CalendarService:
                     marked_days[current_date] = event.get('summary', '')
                     current_date += timedelta(days=1)
         else:
-            logger.info('No upcoming events found.')
+            logger.info('No events found in specified calendar.')
         if marked_days:
-            logger.info(f'Found the following vacations: {marked_days}')
+            logger.info(f'Found the following work days: {marked_days}')
         else:
-            logger.info('No days off were Found')
+            logger.info('No work days were Found')
         return marked_days
